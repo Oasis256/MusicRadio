@@ -1,6 +1,7 @@
 import socket
 import sys
 
+
 class GqrxCtrl():
     # Class to control qgrx via TCP
 
