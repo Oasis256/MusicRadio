@@ -1,7 +1,7 @@
 import sys
 sys.path.append('../bluetooth')
 
-from bluetoothmetadata import BluetoothMetadata
+from BluetoothMetadata import BluetoothMetadata
 
 from threading import Thread
 from time import sleep

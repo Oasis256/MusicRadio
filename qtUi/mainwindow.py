@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Fri Jul 27 09:55:05 2018
+# Created: Fri Jul 27 10:58:18 2018
 #      by: PyQt5 UI code generator 5.3.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -19,7 +19,7 @@ class Ui_MainWindow(object):
         self.bluetoothBtn.setGeometry(QtCore.QRect(0, 0, 240, 320))
         self.bluetoothBtn.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("resources/bluetooth.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("../qtUi/resources/bluetooth.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.bluetoothBtn.setIcon(icon)
         self.bluetoothBtn.setIconSize(QtCore.QSize(280, 320))
         self.bluetoothBtn.setObjectName("bluetoothBtn")
@@ -27,7 +27,7 @@ class Ui_MainWindow(object):
         self.radioBtn.setGeometry(QtCore.QRect(240, 0, 240, 320))
         self.radioBtn.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("resources/Antena-Wireless.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("../qtUi/resources/Antena-Wireless.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.radioBtn.setIcon(icon1)
         self.radioBtn.setIconSize(QtCore.QSize(280, 330))
         self.radioBtn.setObjectName("radioBtn")
