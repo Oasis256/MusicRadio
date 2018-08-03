@@ -34,7 +34,7 @@ class BluetoothMetadata():
 
             # We've found a player, so now we can get the metadata
             if player_path:
-                print "player path=" + player_path
+                print ("player path=" + player_path)
                 self.player = self.bus.get_object("org.bluez", player_path)
                 return True
 

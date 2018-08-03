@@ -39,21 +39,21 @@ try:
         elif char == curses.KEY_RIGHT:
             os.system('clear')
             freq = radioCtrl.getNextFrequency
-            print "Freq=" + str(freq)
-            print "Band Name=" + radioCtrl.getCurrBandName
+            print ("Freq=" + str(freq))
+            print ("Band Name=" + radioCtrl.getCurrBandName)
         elif char == curses.KEY_LEFT:
             os.system('clear')
             freq = radioCtrl.getPrevFrequency
-            print "Freq=" + str(freq)
-            print "Band Name=" + radioCtrl.getCurrBandName
+            print ("Freq=" + str(freq))
+            print ("Band Name=" + radioCtrl.getCurrBandName)
         elif char == curses.KEY_UP:
             os.system('clear')
             radioCtrl.setNextBand()
             freq = radioCtrl.getCurrFreqency
-            print "Freq=" + str(freq)
-            print "Band Name=" + radioCtrl.getCurrBandName
+            print ("Freq=" + str(freq))
+            print ("Band Name=" + radioCtrl.getCurrBandName)
         elif char == curses.KEY_DOWN:
-            print "TBD."
+            print ("TBD.")
 
 
 finally:
