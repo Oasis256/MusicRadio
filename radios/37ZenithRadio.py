@@ -26,7 +26,7 @@ class RadioApp(QtWidgets.QMainWindow, mainwindow.Ui_MainWindow):
         self.radioBtn.clicked.connect(self.enableRadio)
 
     def enableBluetooth(self):
-        print "Bluetooth mode"
+        print ("Bluetooth mode")
         # subprocess.call(["sudo", "systemctl", "stop", "radiostream"])
         # subprocess.call(["sudo", "systemctl", "stop", "radioctrl"])
         # subprocess.call(["sudo", "rfkill", "block",  "wifi"])
@@ -37,7 +37,7 @@ class RadioApp(QtWidgets.QMainWindow, mainwindow.Ui_MainWindow):
         self.bluetoothmusic.raise_()
 
     def enableRadio(self):
-        print "Radio mode"
+        print ("Radio mode")
         # subprocess.call(["sudo", "rfkill", "unblock", "wifi"])
         # subprocess.call(["sudo", "rfkill", "block", "bluetooth"])
         # subprocess.call(["sudo", "systemctl", "start", "radiostream"])
@@ -113,7 +113,7 @@ class BluetoothThread(QThread):
 
     def run(self):
         while not self.btmd.initialize():
-            print "Error connecting!!"
+            print ("Error connecting!!")
             sleep(1)
 
         self.running = True
@@ -130,11 +130,11 @@ class BluetoothThread(QThread):
             elapsedTime = self.btmd.getTrackElapsedSeconds()
             totalTime = self.btmd.getTrackTotalSeconds()
             percComplete = self.btmd.getTrackPercentageComplete() * 100
-            # print "Artist = "+artist
-            # print "Title = "+title
-            # print "Album = "+album
-            # print "Elapsed time = "+ str(elapsedTime)
-            # print "Percentage complete = " + str(percComplete)
+            # print ("Artist = "+artist)
+            # print ("Title = "+title)
+            # print ("Album = "+album)
+            # print ("Elapsed time = "+ str(elapsedTime))
+            # print ("Percentage complete = " + str(percComplete))
             if artist != self.currArtist:
                 self.updateArtistText.emit(artist)
                 self.currArtist = artist
