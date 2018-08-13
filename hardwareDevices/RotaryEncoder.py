@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
-from threading import Thread
+import threading
+#from threading import Thread
 
 
 class RotaryEncoder(object):
@@ -7,8 +8,8 @@ class RotaryEncoder(object):
     #   button presses to switch to next band.
 
     def __init__(self, gpioEncoderPin1, gpioEncoderPin2, gpioPressPin):
-        self.knobCallback = none
-        self.buttonCallback = none
+        self.knobCallback = None
+        self.buttonCallback = None
 
         self.rotaryCounter = 0
         self.newCounter = 0
@@ -18,6 +19,7 @@ class RotaryEncoder(object):
 
         self.gpioEncoderPin1 = gpioEncoderPin1
         self.gpioEncoderPin2 = gpioEncoderPin2
+	self.gpioPressPin    = gpioPressPin
 
         # initialize interrupt handler
         GPIO.setwarnings(True)
@@ -30,15 +32,15 @@ class RotaryEncoder(object):
 
         # setup callback thread for the A and B encoder
         # use interrupts for all inputs
-        GPIO.add_event_detect(gpioEncoderPin1, GPIO.RISING, callback=rotary_interrupt)  # NO bouncetime
-        GPIO.add_event_detect(gpioEncoderPin2, GPIO.RISING, callback=rotary_interrupt)  # NO bouncetime
-        GPIO.add_event_detect(gpioPressPin,    GPIO.RISING, callback=self.buttonCallback)
+        GPIO.add_event_detect(gpioEncoderPin1, GPIO.RISING, callback=self.rotary_interrupt)  # NO bouncetime
+        GPIO.add_event_detect(gpioEncoderPin2, GPIO.RISING, callback=self.rotary_interrupt)  # NO bouncetime
 
     def registerRotateCallback(self, callbackFunc):
         self.knobCallback = callbackFunc
 
     def registerPressCallback(self, callbackFunc):
         self.buttonCallback = callbackFunc
+        GPIO.add_event_detect(self.gpioPressPin, GPIO.RISING, callback=self.buttonCallback)
 
     def tick(self):
         # Typically called at 100 Hz

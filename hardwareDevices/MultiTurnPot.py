@@ -10,9 +10,9 @@ class MultiTurnPot(object):
         self.thresh = thresh
 
         self.gain = 1
-        self.thresh = .35
-        self.divisor = 16.48
+        self.thresh = 10
         self.val0 = 0
+	self.deltaFilter = 100
 
         # Create an ADS1015 ADC (12-bit) instance.
         self.adc = Adafruit_ADS1x15.ADS1015()
@@ -23,9 +23,9 @@ class MultiTurnPot(object):
     def tick(self):
         # Should be called a 4 Hz
         # Read ADC channel AtoAPin for volume.
-        val1 = self.adc.read_adc(self.AtoDPin, gain=self.gain) / self.divisor
+        val1 = self.adc.read_adc(self.AtoDPin, gain=self.gain)
         deltaVal = val1 - self.val0
+
         if deltaVal > self.thresh or deltaVal < -self.thresh:
-            # print deltaV
             self.val0 = val1
             self.potTurnedCallback(deltaVal)

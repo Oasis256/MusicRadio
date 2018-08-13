@@ -6,17 +6,19 @@ from RotaryEncoder import RotaryEncoder
 from time import sleep
 
 
-def PushNotifier():
+def PushNotifier(self):
     print ("Button was pressed!")
 
 def RotateNotifier(num):
-    print ("Encoder was rotated " + num + " times")
+    if num > 1 or num < -1:
+	print ("Bogus number: " + str(num))
+    else:
+    	print ("Encoder was rotated " + str(num) + " times")
 
-rotenc = RotaryEncoder(20, 16, 12)
+rotenc = RotaryEncoder(16, 20, 12)
 rotenc.registerPressCallback(PushNotifier)
 rotenc.registerRotateCallback(RotateNotifier)
 
-print ("Hello?")
 while True:
     rotenc.tick()
     sleep(.01)
