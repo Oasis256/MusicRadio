@@ -31,8 +31,11 @@ radioCtrl = RadioCtrl(radioConfig)
 
 freq = 0
 
+# argv[1] is ip address
+ip_addr = sys.argv[1]
+
 # Setup GQRX
-gqrx = GqrxCtrl("192.168.29.245", True)
+gqrx = GqrxCtrl(ip_addr, True)
 
 #print "Left or Right arrows to changes frequency, Up arrow to change bands, Q to quit."
 try:
@@ -56,7 +59,7 @@ try:
             radioCtrl.setNextBand()
 	    demod = radioCtrl.getCurrDemod
             freq = radioCtrl.getCurrFreqency
-	    gqrx.gqrxDemodMode(demod)
+	    gqrx.gqrxSetDemodMode(demod)
 	    gqrx.gqrxTuneFreq(freq)
             print ("Band Name=" + radioCtrl.getCurrBandName)
         elif char == curses.KEY_DOWN:
