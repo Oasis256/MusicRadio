@@ -15,17 +15,24 @@ from MultiTurnPot import MultiTurnPot
 from RotaryEncoder import RotaryEncoder
 from VolumeKnob import VolumeKnob
 
+global freq
 
 def MultiTurnPotHandler(deltaVal):
-    # Determine how much to move station
-    pass
+	if deltaVal > 0:
+		#radioCtrl.increaseFrequency((deltaVal % 10) * 1000)
+		print ("Increasing frequency by: " + str((deltaVal %10) * 1000))
+		
+	elif deltaVal < 0:
+		#radioCtrl.decreaseFrequency((deltaVal % 10) * 1000)
+		print ("Decreasing frequency by: " + str((deltaVal %10) * 1000))
+	
 
 
 def RotaryBtnHandler(self):
     radioCtrl.setNextBand()
     demod = radioCtrl.getCurrDemod
     freq = radioCtrl.getCurrFreqency
-    gqrx.gqrxDemodMode(demod)
+    gqrx.gqrxSetDemodMode(demod)
     gqrx.gqrxTuneFreq(freq)
 
 
@@ -55,9 +62,10 @@ mtpot = MultiTurnPot(1, 10)
 mtpot.registerCallback(MultiTurnPotHandler)
 
 
-def mtpotThread(self):
-    mtpot.tick()
-    sleep(.25)
+def mtpotThread():
+    while True:
+    	mtpot.tick()
+    	sleep(.25)
 
 
 # Create rotary encoder handler
@@ -66,18 +74,20 @@ rotenc.registerPressCallback(RotaryBtnHandler)
 rotenc.registerRotateCallback(RotaryRotateHandler)
 
 
-def rotencThread(self):
-    rotenc.tick()
-    sleep(.01)
+def rotencThread():
+    while True:
+    	rotenc.tick()
+    	sleep(.01)
 
 
 # Create volume knob handler
-volknob = VolumeKnob(0, VolumeOffHandler)
+volknob = VolumeKnob(0, VolumeOffHandler, True)
 
 
-def volknobThread(self):
-    volknob.tick()
-    sleep(.25)
+def volknobThread():
+    while True:
+    	volknob.tick()
+    	sleep(.25)
 
 
 # Setup GQRX
