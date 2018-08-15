@@ -37,30 +37,30 @@ ip_addr = sys.argv[1]
 # Setup GQRX
 gqrx = GqrxCtrl(ip_addr, True)
 
-#print "Left or Right arrows to changes frequency, Up arrow to change bands, Q to quit."
+# print "Left or Right arrows to changes frequency, Up arrow to change bands, Q to quit."
 try:
     while True:
-        screen.addstr(0,0, "Left or Right arrows to changes frequency, Up arrow to change bands, Q to quit.")
+        screen.addstr(0, 0, "Left or Right arrows to changes frequency, Up arrow to change bands, Q to quit.")
         char = screen.getch()
         if char == ord('q'):
             break
         elif char == curses.KEY_RIGHT:
             os.system('clear')
             freq = radioCtrl.getNextFrequency
-	    gqrx.gqrxTuneFreq(freq)
+            gqrx.gqrxTuneFreq(freq)
             print ("Band Name=" + radioCtrl.getCurrBandName)
         elif char == curses.KEY_LEFT:
             os.system('clear')
             freq = radioCtrl.getPrevFrequency
-	    gqrx.gqrxTuneFreq(freq)
+            gqrx.gqrxTuneFreq(freq)
             print ("Band Name=" + radioCtrl.getCurrBandName)
         elif char == curses.KEY_UP:
             os.system('clear')
             radioCtrl.setNextBand()
-	    demod = radioCtrl.getCurrDemod
+            demod = radioCtrl.getCurrDemod
             freq = radioCtrl.getCurrFreqency
-	    gqrx.gqrxSetDemodMode(demod)
-	    gqrx.gqrxTuneFreq(freq)
+            gqrx.gqrxSetDemodMode(demod)
+            gqrx.gqrxTuneFreq(freq)
             print ("Band Name=" + radioCtrl.getCurrBandName)
         elif char == curses.KEY_DOWN:
             print ("TBD.")
