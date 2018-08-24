@@ -8,8 +8,9 @@
 # Contributed by SWAGLORD12
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from rtlsdr import RtlSdr
+#from rtlsdr import RtlSdr
 import sys
+import functools
 import threading
 import time
 import os
@@ -21,13 +22,16 @@ logger = logging.getLogger(__name__)
 logger.info('Starting Radio UI')
             
 class Ui_Form(object):
+    
     def setupUi(self, Form):
+        
         Form.setObjectName("Form")
         Form.resize(800, 480)
         
         self.freqNum = QtWidgets.QLCDNumber(Form)
         self.freqNum.setGeometry(QtCore.QRect(110, 0, 571, 71))
         self.freqNum.setObjectName("freqNum")
+        self.freqNum.setDigitCount(12)
         
         #self.waveLength = QtQuickWidgets.QQuickWidget(Form)
         #self.waveLength.setGeometry(QtCore.QRect(20, 80, 751, 231))
@@ -37,11 +41,12 @@ class Ui_Form(object):
         self.UpButton = QtWidgets.QPushButton(Form)
         self.UpButton.setGeometry(QtCore.QRect(20, 340, 81, 121))
         self.UpButton.setObjectName("UpButton")
-        #self.UpButton.clicked.connect(self.Rangeup)
+        self.UpButton.clicked.connect(self.RangeUp)
         
         self.downButton = QtWidgets.QPushButton(Form)
         self.downButton.setGeometry(QtCore.QRect(130, 340, 81, 121))
         self.downButton.setObjectName("downButton")
+        self.UpButton.clicked.connect(self.RangeDown)
         
         self.scanButton = QtWidgets.QPushButton(Form)
         self.scanButton.setGeometry(QtCore.QRect(240, 340, 81, 121))
@@ -85,20 +90,36 @@ class Ui_Form(object):
         self.Home.setText(_translate("Form", "Home"))
         self.pushButton_6.setText(_translate("Form", "PushButton"))
 
+    self.freq = 0
+    
     def setFreqLCD(self):
         while True:
 
-            sdr = RtlSdr()
+            #sdr = RtlSdr()
             
-            i = 1.01e6
-            print (i)
-
+            #self.__freq = 101.1
+            #tup  = Quantity(i,'FM')
+            #tup = '{:8.1f}'.format(i)
+            print (freq)
             #sdr.sample_rate = i
             
             logger.info('Setting LCD')
-            self.freqNum.display(i)
+            self.freqNum.display(freq)
            
             time.sleep(1)
+
+    def RangeUp(self):
+        self.freq += 10
+        print (self.freq)
+        return self.freq
+
+
+    def RangeDown(self):
+        self.__freq -= 10
+            
+    def home(self):
+        time.sleep(1)
+        
 
 
 if __name__ == "__main__":
