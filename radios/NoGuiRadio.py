@@ -15,23 +15,29 @@ from MultiTurnPot import MultiTurnPot
 from RotaryEncoder import RotaryEncoder
 from VolumeKnob import VolumeKnob
 
-global freq
+# Create Radio Config object
+radioConfig = RadioConfig()
+
+# Create new radio controller object
+radio_ctrl = RadioCtrl(radioConfig)
 
 def MultiTurnPotHandler(deltaVal):
+	global radio_ctrl
 	if deltaVal > 0:
-		#radioCtrl.increaseFrequency((deltaVal % 10) * 1000)
+		deltaFreq = (deltaVal % 10) * 1000
 		print ("Increasing frequency by: " + str((deltaVal %10) * 1000))
+		radio_ctrl.increaseFrequency(deltaFreq)
 		
 	elif deltaVal < 0:
-		#radioCtrl.decreaseFrequency((deltaVal % 10) * 1000)
+		radio_ctrl.decreaseFrequency((deltaVal % 10) * 1000)
 		print ("Decreasing frequency by: " + str((deltaVal %10) * 1000))
 	
 
 
 def RotaryBtnHandler(self):
-    radioCtrl.setNextBand()
-    demod = radioCtrl.getCurrDemod
-    freq = radioCtrl.getCurrFreqency
+    radio_ctrl.setNextBand()
+    demod = radio_ctrl.getCurrDemod
+    freq = radio_ctrl.getCurrFreqency
     gqrx.gqrxSetDemodMode(demod)
     gqrx.gqrxTuneFreq(freq)
 
@@ -41,9 +47,9 @@ def RotaryRotateHandler(num):
         print ("Bogus number: " + str(num))
     else:
         if num == 1:
-            freq = radioCtrl.getNextFrequency
+            freq = radio_ctrl.getNextFrequency
         elif num == -1:
-            freq = radioCtrl.getPrevFrequency
+            freq = radio_ctrl.getPrevFrequency
         gqrx.gqrxTuneFreq(freq)
 
 
@@ -51,11 +57,6 @@ def VolumeOffHandler(self):
     print ("Volume is at 0!")
 
 
-# Create Radio Config object
-radioConfig = RadioConfig()
-
-# Create new radio controller object
-radioCtrl = RadioCtrl(radioConfig)
 
 # Create new multi turn pot handler
 mtpot = MultiTurnPot(1, 10)

@@ -13,19 +13,19 @@ class GqrxCtrl():
 
         # Establish TCP connection to GQRX
         self.qgrxClient = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.qgrxClient.connect((self.ip, self.port))
+        #self.qgrxClient.connect((self.ip, self.port))
 
     def gqrxTuneFreq(self, freq):
         message = "F " + str(freq)
 	if self.debugOn == True:
 		print (message)
-        self.qgrxClient.send(message)
+        #self.qgrxClient.send(message)
 
     def gqrxSetDemodMode(self, DemodMode):
         message = "M " + DemodMode
 	if self.debugOn == True:
 		print (message)
-        self.qgrxClient.send(message)
+        #self.qgrxClient.send(message)
 
     def gqrxClose(self):
         self.gqrxClient.close()

@@ -7,7 +7,7 @@ from RadioConfig import RadioConfig
 radioCfg = RadioConfig()
 
 
-class RadioCtrl:
+class RadioCtrl(object):
     currentBandName = None  # type: object
     currentDemod = None  # type: object
     currentFrequency = None  # type: object
