@@ -10,11 +10,12 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 #from rtlsdr import RtlSdr
 import sys
-import functools
+#import functools
 import threading
 import time
-import os
+#import os
 import logging
+import pyrtl
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -46,7 +47,7 @@ class Ui_Form(object):
         self.downButton = QtWidgets.QPushButton(Form)
         self.downButton.setGeometry(QtCore.QRect(130, 340, 81, 121))
         self.downButton.setObjectName("downButton")
-        self.UpButton.clicked.connect(self.RangeDown)
+        #self.UpButton.clicked.connect()
         
         self.scanButton = QtWidgets.QPushButton(Form)
         self.scanButton.setGeometry(QtCore.QRect(240, 340, 81, 121))
@@ -75,8 +76,11 @@ class Ui_Form(object):
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
-        setfreq = threading.Thread(target=self.setFreqLCD)
-        setfreq.start()
+        run = threading.Thread(target=self.run)
+        run.start()
+
+        rangeup = threading.Thread(target=self.RangeUp)
+        rangeup.start()
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
@@ -90,37 +94,23 @@ class Ui_Form(object):
         self.Home.setText(_translate("Form", "Home"))
         self.pushButton_6.setText(_translate("Form", "PushButton"))
 
-    self.freq = 0
-    
-    def setFreqLCD(self):
-        while True:
+    def getFreq(self):
+        freq = pyrtl.RtlCalls.loadRadioFreq(pyrtl.RtlCalls)
+        freq1 = pyrtl.RtlCalls.setRadiofreq(self, freq)
+        #print(freq1)
+        return freq1
 
-            #sdr = RtlSdr()
-            
-            #self.__freq = 101.1
-            #tup  = Quantity(i,'FM')
-            #tup = '{:8.1f}'.format(i)
-            print (freq)
-            #sdr.sample_rate = i
-            
-            logger.info('Setting LCD')
-            self.freqNum.display(freq)
-           
-            time.sleep(1)
+    def setFreqLCD(self, freq):
+        self.freqNum.display(freq)
+
+    def run(self):
+        self.setFreqLCD(Ui_Form.getFreq(Ui_Form))
 
     def RangeUp(self):
-        self.freq += 10
-        print (self.freq)
-        return self.freq
-
-
-    def RangeDown(self):
-        self.__freq -= 10
-            
-    def home(self):
-        time.sleep(1)
-        
-
+        rtl = pyrtl.RtlCalls
+        freq = rtl.RadioFreqUp(self, Ui_Form.getFreq(Ui_Form))
+        return freq
+        #pyrtl.RtlCalls.RadioFreqUp(pyrtl.RtlCalls, pyrtl.RtlCalls.loadRadioFreq(pyrtl.RtlCalls))
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
