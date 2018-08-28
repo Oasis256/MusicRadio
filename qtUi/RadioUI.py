@@ -79,8 +79,8 @@ class Ui_Form(object):
         run = threading.Thread(target=self.run)
         run.start()
 
-        rangeup = threading.Thread(target=self.RangeUp)
-        rangeup.start()
+        #rangeup = threading.Thread(target=self.RangeUp)
+        #rangeup.start()
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
@@ -96,21 +96,24 @@ class Ui_Form(object):
 
     def getFreq(self):
         freq = pyrtl.RtlCalls.loadRadioFreq(pyrtl.RtlCalls)
-        freq1 = pyrtl.RtlCalls.setRadiofreq(self, freq)
+        freq1 = pyrtl.RtlCalls.setRadiofreq(pyrtl.RtlCalls, freq)
         #print(freq1)
         return freq1
 
     def setFreqLCD(self, freq):
-        self.freqNum.display(freq)
+        while True:
+            self.freqNum.display(freq)
 
     def run(self):
-        self.setFreqLCD(Ui_Form.getFreq(Ui_Form))
-
+            self.setFreqLCD(Ui_Form.getFreq(Ui_Form))         
+            time.sleep(1)
+            
     def RangeUp(self):
         rtl = pyrtl.RtlCalls
         freq = rtl.RadioFreqUp(self, Ui_Form.getFreq(Ui_Form))
-        return freq
-        #pyrtl.RtlCalls.RadioFreqUp(pyrtl.RtlCalls, pyrtl.RtlCalls.loadRadioFreq(pyrtl.RtlCalls))
+        #return freq
+
+    
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
