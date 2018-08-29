@@ -44,10 +44,8 @@ class RtlCalls(object):
         add = 10
         freq1 = float(freq) + float(add)
         logger.info("Setting freq to: ")
-        time.sleep(.1)
         RtlCalls.saveRadioFreq(RtlCalls, freq1)
-        time.sleep(1)
-        print("set freq")
+        time.sleep(.1)
         RtlCalls.setRadioFreq(RtlCalls, freq1)
         #return freq1
 
@@ -67,4 +65,4 @@ class RtlCalls(object):
         radioFileWrite = open('freq.txt', 'w')
         radioFileWrite.write(str(freq))
         radioFileWrite.close()
-        time.sleep(1)
+        #time.sleep(1)

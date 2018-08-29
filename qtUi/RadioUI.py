@@ -97,17 +97,20 @@ class Ui_Form(object):
     def getFreq(self):
         freq1 = pyrtl.RtlCalls.loadRadioFreq(pyrtl.RtlCalls)
         #freq1 = pyrtl.RtlCalls.setRadioFreq(pyrtl.RtlCalls, )
-        print(freq1)
+        #print(freq1)
         return freq1
 
-    def setFreqLCD(self, freq):
-        while True:
-            self.freqNum.display(freq)
+    #def setFreqLCD(self, freq):
+       # while True:
+           # app.processEvents()
+            
 
     def run(self):
+        while True:
             app.processEvents()
-            self.setFreqLCD(Ui_Form.getFreq(Ui_Form))         
-            time.sleep(1)
+            self.freqNum.display(Ui_Form.getFreq(Ui_Form))
+           # self.setFreqLCD(Ui_Form.getFreq(Ui_Form))         
+            time.sleep(.1)
             
     def RangeUp(self):
         rtl = pyrtl.RtlCalls
@@ -121,5 +124,9 @@ if __name__ == "__main__":
     ui.setupUi(RadioUI)
     RadioUI.show()
     sys.exit(app.exec_())
+
+    timer = QtCore.QTimer()
+    timer.timeout.connect(ui.setFreqLCD)
+    timer.start(10)
 
         
