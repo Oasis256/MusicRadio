@@ -95,9 +95,9 @@ class Ui_Form(object):
         self.pushButton_6.setText(_translate("Form", "PushButton"))
 
     def getFreq(self):
-        freq = pyrtl.RtlCalls.loadRadioFreq(pyrtl.RtlCalls)
-        freq1 = pyrtl.RtlCalls.setRadiofreq(pyrtl.RtlCalls, freq)
-        #print(freq1)
+        freq1 = pyrtl.RtlCalls.loadRadioFreq(pyrtl.RtlCalls)
+        #freq1 = pyrtl.RtlCalls.setRadioFreq(pyrtl.RtlCalls, )
+        print(freq1)
         return freq1
 
     def setFreqLCD(self, freq):
@@ -105,6 +105,7 @@ class Ui_Form(object):
             self.freqNum.display(freq)
 
     def run(self):
+            app.processEvents()
             self.setFreqLCD(Ui_Form.getFreq(Ui_Form))         
             time.sleep(1)
             
@@ -112,8 +113,6 @@ class Ui_Form(object):
         rtl = pyrtl.RtlCalls
         freq = rtl.RadioFreqUp(self, Ui_Form.getFreq(Ui_Form))
         #return freq
-
-    
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
