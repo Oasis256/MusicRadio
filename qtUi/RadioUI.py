@@ -15,7 +15,7 @@ import threading
 import time
 #import os
 import logging
-import pyrtl
+import setGuiCalls
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -47,7 +47,7 @@ class Ui_Form(object):
         self.downButton = QtWidgets.QPushButton(Form)
         self.downButton.setGeometry(QtCore.QRect(130, 340, 81, 121))
         self.downButton.setObjectName("downButton")
-        #self.UpButton.clicked.connect()
+        self.downButton.clicked.connect(self.RangeDown)
         
         self.scanButton = QtWidgets.QPushButton(Form)
         self.scanButton.setGeometry(QtCore.QRect(240, 340, 81, 121))
@@ -76,7 +76,7 @@ class Ui_Form(object):
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
-        run = threading.Thread(target=self.run)
+        run = threading.Thread(target=self.Run)
         run.start()
 
         #rangeup = threading.Thread(target=self.RangeUp)
@@ -94,28 +94,24 @@ class Ui_Form(object):
         self.Home.setText(_translate("Form", "Home"))
         self.pushButton_6.setText(_translate("Form", "PushButton"))
 
-    def getFreq(self):
-        freq1 = pyrtl.RtlCalls.loadRadioFreq(pyrtl.RtlCalls)
-        #freq1 = pyrtl.RtlCalls.setRadioFreq(pyrtl.RtlCalls, )
-        #print(freq1)
+    def GetFreq(self):
+        freq1 = setGuiCalls.RtlCalls.loadRadioFreq(setGuiCalls.RtlCalls)
         return freq1
 
-    #def setFreqLCD(self, freq):
-       # while True:
-           # app.processEvents()
-            
-
-    def run(self):
+    def Run(self):
         while True:
             app.processEvents()
-            self.freqNum.display(Ui_Form.getFreq(Ui_Form))
-           # self.setFreqLCD(Ui_Form.getFreq(Ui_Form))         
+            self.freqNum.display(Ui_Form.GetFreq(Ui_Form))
             time.sleep(.1)
             
     def RangeUp(self):
-        rtl = pyrtl.RtlCalls
-        freq = rtl.RadioFreqUp(self, Ui_Form.getFreq(Ui_Form))
-        #return freq
+        rtl = setGuiCalls.RtlCalls
+        freq = rtl.RadioFreqUp(self, Ui_Form.GetFreq(Ui_Form))
+
+    def RangeDown(self):
+        rtl = setGuiCalls.RtlCalls
+        rtl.RadioFreqDown(self, Ui_Form.GetFreq(Ui_Form))
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
