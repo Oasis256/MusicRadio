@@ -5,6 +5,9 @@ import scipy.signal as signal
 import matplotlib
 matplotlib.use('Agg') # necessary for headless mode
 # see http://stackoverflow.com/a/3054314/3524528
+# DISCLAIMER: using code form the user ffund on github.
+# this is their work, I will be optimizing it for my own means
+# manipulating it for other freq ranges.
 
 sdr = RtlSdr()
 
