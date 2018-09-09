@@ -5,6 +5,10 @@ import matplotlib
 import time
 import pyaudio
 import sys
+import os
+import wave
+import threading
+from threading import Thread
 matplotlib.use('Agg') # necessary for headless mode
 # see http://stackoverflow.com/a/3054314/3524528
 
@@ -18,7 +22,7 @@ class populateRadioData(object):
         # We capture at an offset to avoid DC spike
         Fc = F_station - F_offset # Capture center frequency
         Fs = int(1140000)         # Sample rate
-        N = int(512)          # Samples to capture
+        N = int(4147200)          # Samples to capture
 
         # configure device
         sdr.sample_rate = Fs      # Hz
@@ -29,8 +33,8 @@ class populateRadioData(object):
         samples = sdr.read_samples(N)
 
         # Clean up the SDR device
-        sdr.close()
-        del(sdr)
+        #sdr.close()
+        #del(sdr)
 
         # Convert samples to a numpy array
         x1 = np.array(samples).astype("complex64")
@@ -76,31 +80,55 @@ class populateRadioData(object):
         # Scale audio to adjust volume
         x7 *= 10000 / np.max(np.abs(x7))
         # Save to file as 16-bit signed single-channel audio samples
-        x7.astype("int16").tofile("wbfm-mono.raw")
+
+        save = x7.astype("int16").tofile("wbfm-mono1.raw")
 
         print(Fs_audio)
+ 
+        os.system("sox -r 45600 -e unsigned -b 16 -c 1 wbfm-mono1.raw wbfm1.wav")
+            
 
-    def playAudio(self):
+    def playBack(self):
 
-        p = pyaudio.PyAudio()
+        chunk = 1048576 
+        #open a wav format music  
+        f = wave.open("wbfm1.wav","rb")
+        #instantiate PyAudio  
+        p = pyaudio.PyAudio()  
+        #open stream  
+        stream = p.open(format = p.get_format_from_width(f.getsampwidth()),  
+                       channels = f.getnchannels(),  
+                       rate = f.getframerate(),  
+                        output = True)
+ 
+        #read data  
+        data = f.readframes(chunk)  
 
-        stream = p.open(format=pyaudio.paFloat32,
-                            channels=1,
-                            rate=44100,
-                            output=True)
+        #play stream  
+        while data:  
+            stream.write(data)      
+            data = f.readframes(chunk)
+            
+        #stop stream  
+        #stream.stop_stream()  
+        #stream.close()  
 
-        file = open("wbfm-mono.raw")
-        stream.write(file)
-        stream.stop_stream()
-        stream.close()
+        #close PyAudio  
+        #p.terminate()
 
-        p.terminate()
-
-        time.sleep(1)
 
 
 if __name__ == "__main__":
-    for i in range(sys.maxsize**10):
-        Station = 101.1e6
-        populateRadioData.grabRaw(populateRadioData, Station)
-        populateRadioData.playAudio(populateRadioData)
+                    
+    
+    while True:
+        station = 101.1e6
+        t1 = Thread(target=populateRadioData.grabRaw(populateRadioData, station))
+        t2 = Thread(target=populateRadioData.playBack(populateRadioData))
+        t1.start()  
+        t2.start()
+        
+
+        
+        
+        
