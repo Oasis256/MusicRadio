@@ -3,89 +3,100 @@ import numpy as np
 import scipy.signal as signal
 import scipy.io
 from scipy.io import wavfile
+
 import matplotlib
 import time
 import pyaudio
 import sys
 import os
-
 import threading
-from threading import Thread
+import vlc
 from contextlib import closing
-#matplotlib.use('Agg') # necessary for headless mode
-# see http://stackoverflow.com/a/3054314/3524528
-
 
 class populateRadioData(object):
 
+
     def grabRaw(self, F_station):
 
-        with closing(RtlSdr()) as sdr:  
-            sdr.sample_rate = sample_rate = 240000
-            sample_rate_fm = 240000
-            sdr.center_freq = 101.1e6
-            sdr.gain = 20
-            iq_samples = sdr.read_samples(4976640)
+        global num
+        num = 2
+        test = 	16384
 
-            iq_comercial = signal.decimate(iq_samples, sample_rate//sample_rate_fm)
+        print("num at start =", num)
 
-            angle_comercial = np.unwrap(np.angle(iq_comercial))
-            demodulated_comercial = np.diff(angle_comercial)
+        while True:
 
-            audio_rate = 48000
-            audio_comercial = signal.decimate(demodulated_comercial, \
-            sample_rate_fm//audio_rate, zero_phase=True)
+                sdr = RtlSdr() 
+                sdr.sample_rate = sample_rate = 240000
+                sample_rate_fm = 240000
+                sdr.center_freq = F_station
+                sdr.gain = 4
+                iq_samples = sdr.read_samples(test)
 
-            audio_comercial = np.int16(1e4*audio_comercial)
-            wavfile.write("comercial_demodulated.wav", rate=audio_rate, data=audio_comercial)
+                iq_comercial = signal.decimate(iq_samples, sample_rate//sample_rate_fm)
 
- 
-    def playBack(self):
+                angle_comercial = np.unwrap(np.angle(iq_comercial))
+                demodulated_comercial = np.diff(angle_comercial)
 
-        #startup = 1
-        #if startup == 1:
-        #    time.sleep(7)
-        #    startup += 1
+                audio_rate = 48000
+                audio_comercial = signal.decimate(demodulated_comercial, \
+                sample_rate_fm//audio_rate, zero_phase=True)
 
-        import wave
-        chunk = 1024
-        #open a wav format music  
-        f = wave.open("comercial_demodulated.wav","rb")
-        #instantiate PyAudio  
-        p = pyaudio.PyAudio()  
-        #open stream  
-        stream = p.open(format = p.get_format_from_width(f.getsampwidth()),  
-                        channels = f.getnchannels(),  
-                        rate = f.getframerate(),  
-                        output = True)
-     
-        #read data  
-        data = f.readframes(chunk)  
+                print("num after process =", num)
 
-        #play stream  
-        while data:  
-            stream.write(data)      
-            data = f.readframes(chunk)
-                
-            #stop stream  
-            #stream.stop_stream()  
-            #stream.close()  
+                if num % 2 == 0:
+                    
+                    audio_comercial = np.int16(1e4*audio_comercial)
+                    wavfile.write("comercial_demodulated.wav", rate=audio_rate, data=audio_comercial)
+                    num = num + 1
+                    print ("num after saved to wav in wav ",num)
+                    print("File comercial demodulated 1 done")
 
-            #close PyAudio  
-            #p.terminate()
+                else :
+                    audio_comercial = np.int16(1e4*audio_comercial)
+                    wavfile.write("comercial_demodulated1.wav", rate=audio_rate, data=audio_comercial)
+                    num = num + 1
+                    print ("File comercial demodulated 2 done")
+                    print("num afer save to wav in wav 2",num)
+                    
+                sdr.close()    
+                time.sleep(.7)
+           
+
+class populatePlayBack(object):
+    
         
+    def playBack(self, file1 ,file2):
+  
+        while True:
+        
+            print("Starting PlayBack")
+
+            playlist = [file1, file2]
+
+            for song in playlist:
+                player = vlc.MediaPlayer(song)
+                player.play()
+
+            time.sleep(1.5)
+          
     
 if __name__ == "__main__":
-                    
     
-    while True:
-        station = 101.1e6
-        t1 = Thread(target=populateRadioData.grabRaw(populateRadioData, station))
-        t2 = Thread(target=populateRadioData.playBack(populateRadioData))
-        t1.start()  
-        t2.start()
-        
+    station = 101.1e6
+    file1 = "comercial_demodulated.wav"
+    file2="comercial_demodulated1.wav"
 
+    t1 = threading.Thread(target=populateRadioData.grabRaw, args=(populateRadioData, station))   
+    #t2 = threading.Thread(target=populatePlayBack.playBack, args=(populatePlayBack, file1, file2))
+
+    t1.setDaemon(True)
+    #t2.setDaemon(True)
+
+    t1.start()
+    #t2.start()
+
+    #populatePlayBack.playBack(populateRadioData)
         
         
         
