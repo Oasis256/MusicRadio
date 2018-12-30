@@ -15,40 +15,50 @@ class Ui_Form(object):
         Form.setObjectName("RadioSelect")
         Form.resize(480, 320)
         
-        self.Skywarn = QtWidgets.QPushButton(Form)
-        self.Skywarn.setGeometry(QtCore.QRect(0, 0, 115, 150))
-        self.Skywarn.setObjectName("Skywarn")
-        iconSkywarn = QtGui.QIcon()
-        iconSkywarn.addPixmap(QtGui.QPixmap("resources/skywarn.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.Skywarn.setIcon(iconSkywarn)
-        self.Skywarn.setIconSize(QtCore.QSize(110, 145))
-        
+        #Top
+        self.FM = QtWidgets.QPushButton(Form)
+        self.FM.setGeometry(QtCore.QRect(0, 0, 150, 150))
+        self.FM.setObjectName("FM")
+        iconFM = QtGui.QIcon()
+        iconFM.addPixmap(QtGui.QPixmap("resources/radio.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.FM.setIcon(iconFM)
+        self.FM.setIconSize(QtCore.QSize(110, 145))
+
         self.Police = QtWidgets.QPushButton(Form)
-        self.Police.setGeometry(QtCore.QRect(120, 0, 115, 150))
+        self.Police.setGeometry(QtCore.QRect(165, 0, 150, 150))
         self.Police.setObjectName("Police")
         iconPolice = QtGui.QIcon()
         iconPolice.addPixmap(QtGui.QPixmap("resources/POLICE.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.Police.setIcon(iconPolice)
         self.Police.setIconSize(QtCore.QSize(110, 145))
         
+        self.Skywarn = QtWidgets.QPushButton(Form)
+        self.Skywarn.setGeometry(QtCore.QRect(330, 0, 150, 150))
+        self.Skywarn.setObjectName("Skywarn")
+        iconSkywarn = QtGui.QIcon()
+        iconSkywarn.addPixmap(QtGui.QPixmap("resources/skywarn.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.Skywarn.setIcon(iconSkywarn)
+        self.Skywarn.setIconSize(QtCore.QSize(110, 145))
+
+        #Bottom
+        self.noaa = QtWidgets.QPushButton(Form)
+        self.noaa.setGeometry(QtCore.QRect(0, 170, 150, 150))
+        self.noaa.setObjectName("HAM")
+        iconNoaa = QtGui.QIcon()
+        iconNoaa.addPixmap(QtGui.QPixmap("resources/skywarn.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.noaa.setIcon(iconNoaa)
+        self.noaa.setIconSize(QtCore.QSize(110, 145))
+
         self.Ham = QtWidgets.QPushButton(Form)
-        self.Ham.setGeometry(QtCore.QRect(240, 0, 115, 150))
+        self.Ham.setGeometry(QtCore.QRect(165, 170, 150, 150))
         self.Ham.setObjectName("HAM")
         iconHam = QtGui.QIcon()
         iconHam.addPixmap(QtGui.QPixmap("resources/HAMRadio.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.Ham.setIcon(iconHam)
         self.Ham.setIconSize(QtCore.QSize(110, 145))
         
-        self.FM = QtWidgets.QPushButton(Form)
-        self.FM.setGeometry(QtCore.QRect(360, 0, 115, 150))
-        self.FM.setObjectName("FM")
-        iconFM = QtGui.QIcon()
-        iconFM.addPixmap(QtGui.QPixmap("resources/radio.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.FM.setIcon(iconFM)
-        self.FM.setIconSize(QtCore.QSize(110, 145))
-        
         self.Home = QtWidgets.QPushButton(Form)
-        self.Home.setGeometry(QtCore.QRect(140, 180, 200, 120))
+        self.Home.setGeometry(QtCore.QRect(330, 170, 150, 150))
         self.Home.setObjectName("Home")
         iconHome = QtGui.QIcon()
         iconHome.addPixmap(QtGui.QPixmap("resources/home.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -70,10 +80,10 @@ class Ui_Form(object):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    TempService = QtWidgets.QMainWindow()
+    radioselect = QtWidgets.QMainWindow()
     ui = Ui_Form()
-    ui.setupUi(TempService)
-    TempService.show()
+    ui.setupUi(radioselect)
+    radioselect.show()
     sys.exit(app.exec_())
 
 
