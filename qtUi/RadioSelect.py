@@ -1,21 +1,25 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'RadioSelect.ui'
-#
-# Created by: PyQt5 UI code generator 5.10.1
-#
-# WARNING! All changes made in this file will be lost!
 # Contributed by SWAGLORD12
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
+from rfscreen import *
 
-class Ui_Form(object):
+class RadioSelect(object):
+ 
+    def main():
+        app = QtWidgets.QApplication(sys.argv)
+        rfscreen = QtWidgets.QMainWindow()
+        ui = rfscreen.RFScreen()
+        ui.setupUi(rfscreen)
+        rfscreen.show()
+        sys.exit(app.exec_())
+        
     def setupUi(self, Form):
+       
         Form.setObjectName("RadioSelect")
         Form.resize(480, 320)
-        
-        #Top
+
+        #Top Buttons 
         self.FM = QtWidgets.QPushButton(Form)
         self.FM.setGeometry(QtCore.QRect(0, 0, 150, 150))
         self.FM.setObjectName("FM")
@@ -23,6 +27,7 @@ class Ui_Form(object):
         iconFM.addPixmap(QtGui.QPixmap("resources/radio.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.FM.setIcon(iconFM)
         self.FM.setIconSize(QtCore.QSize(110, 145))
+        self.FM.clicked.connect(self.radio_pushed)
 
         self.Police = QtWidgets.QPushButton(Form)
         self.Police.setGeometry(QtCore.QRect(165, 0, 150, 150))
@@ -40,7 +45,7 @@ class Ui_Form(object):
         self.Skywarn.setIcon(iconSkywarn)
         self.Skywarn.setIconSize(QtCore.QSize(110, 145))
 
-        #Bottom
+        #Bottom Buttons
         self.noaa = QtWidgets.QPushButton(Form)
         self.noaa.setGeometry(QtCore.QRect(0, 170, 150, 150))
         self.noaa.setObjectName("HAM")
@@ -68,6 +73,10 @@ class Ui_Form(object):
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
+    def radio_pushed(self):
+        #radioselect.close()
+        main()
+
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "RadioSelect"))
@@ -77,11 +86,10 @@ class Ui_Form(object):
         self.FM.setText(_translate("Form", ""))
         self.Home.setText(_translate("Form", ""))
 
-
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     radioselect = QtWidgets.QMainWindow()
-    ui = Ui_Form()
+    ui = RadioSelect()
     ui.setupUi(radioselect)
     radioselect.show()
     sys.exit(app.exec_())
