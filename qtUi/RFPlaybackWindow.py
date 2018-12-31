@@ -4,7 +4,6 @@ import sys
 
 class RFWindow(object):
 
-
     def setupUi(self, Form):
         Form.setObjectName("MainWindow")
         Form.resize(480, 318)

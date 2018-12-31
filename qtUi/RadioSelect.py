@@ -2,20 +2,29 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
-from rfscreen import *
+import os
+import threading
+import RFPlaybackWindow
 
 class RadioSelect(object):
- 
-    def main():
-        app = QtWidgets.QApplication(sys.argv)
-        rfscreen = QtWidgets.QMainWindow()
-        ui = rfscreen.RFScreen()
-        ui.setupUi(rfscreen)
-        rfscreen.show()
-        sys.exit(app.exec_())
+
+    def __init__(self):
+        super(RadioSelect, self).__init__()
         
+
+    def radioSelect(self, window):
+        global w
+        w = RadioSelect()
+        w.setupUi(window)
+        window.show()
+ 
+    def playBackWindow(self, window):
+        global w
+        w = RFPlaybackWindow.RFWindow()
+        w.setupUi(window)
+        window.show()
+
     def setupUi(self, Form):
-       
         Form.setObjectName("RadioSelect")
         Form.resize(480, 320)
 
@@ -27,7 +36,7 @@ class RadioSelect(object):
         iconFM.addPixmap(QtGui.QPixmap("resources/radio.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.FM.setIcon(iconFM)
         self.FM.setIconSize(QtCore.QSize(110, 145))
-        self.FM.clicked.connect(self.radio_pushed)
+        self.FM.clicked.connect(self.radioPushed)
 
         self.Police = QtWidgets.QPushButton(Form)
         self.Police.setGeometry(QtCore.QRect(165, 0, 150, 150))
@@ -44,7 +53,7 @@ class RadioSelect(object):
         iconSkywarn.addPixmap(QtGui.QPixmap("resources/skywarn.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.Skywarn.setIcon(iconSkywarn)
         self.Skywarn.setIconSize(QtCore.QSize(110, 145))
-
+         
         #Bottom Buttons
         self.noaa = QtWidgets.QPushButton(Form)
         self.noaa.setGeometry(QtCore.QRect(0, 170, 150, 150))
@@ -72,10 +81,10 @@ class RadioSelect(object):
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
-
-    def radio_pushed(self):
-        #radioselect.close()
-        main()
+     
+    def radioPushed(self):
+        self.close()
+        RadioSelect.playBackWindow(self, window)
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
@@ -87,12 +96,13 @@ class RadioSelect(object):
         self.Home.setText(_translate("Form", ""))
 
 if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
-    radioselect = QtWidgets.QMainWindow()
-    ui = RadioSelect()
-    ui.setupUi(radioselect)
-    radioselect.show()
-    sys.exit(app.exec_())
+        app = QtWidgets.QApplication(sys.argv)
+        global window
+        window = QtWidgets.QMainWindow()
+        ui = RadioSelect()
+        ui.radioSelect(window)
+        sys.exit(app.exec_())
+
 
 
 
