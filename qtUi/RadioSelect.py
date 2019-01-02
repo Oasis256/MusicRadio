@@ -1,28 +1,27 @@
 # Contributed by SWAGLORD12
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import mainwindow
 import sys
 import os
 import threading
 import RFPlaybackWindow
 
-class RadioSelect(object):
+class RadioSelect(QtWidgets.QMainWindow, mainwindow.Ui_MainWindow):
 
     def __init__(self):
-        super(RadioSelect, self).__init__()
+        super(self.__class__, self).__init__()
+        self.setupUi(self)
+        self.FM.clicked.connect(self.radioPushed)
+        self.Police.clicked.connect(self.radioPushed)
+        self.Skywarn.clicked.connect(self.radioPushed)
+        self.noaa.clicked.connect(self.radioPushed)
+        self.Ham.clicked.connect(self.radioPushed)
         
-
-    def radioSelect(self, window):
-        global w
-        w = RadioSelect()
-        w.setupUi(window)
-        window.show()
- 
-    def playBackWindow(self, window):
+    def playBackWindow(self):
         global w
         w = RFPlaybackWindow.RFWindow()
-        w.setupUi(window)
-        window.show()
+        w.show()
 
     def setupUi(self, Form):
         Form.setObjectName("RadioSelect")
@@ -36,7 +35,7 @@ class RadioSelect(object):
         iconFM.addPixmap(QtGui.QPixmap("resources/radio.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.FM.setIcon(iconFM)
         self.FM.setIconSize(QtCore.QSize(110, 145))
-        self.FM.clicked.connect(self.radioPushed)
+        
 
         self.Police = QtWidgets.QPushButton(Form)
         self.Police.setGeometry(QtCore.QRect(165, 0, 150, 150))
@@ -83,8 +82,8 @@ class RadioSelect(object):
         QtCore.QMetaObject.connectSlotsByName(Form)
      
     def radioPushed(self):
-        self.close()
-        RadioSelect.playBackWindow(self, window)
+        self.hide()
+        RadioSelect.playBackWindow(self)
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
@@ -97,10 +96,8 @@ class RadioSelect(object):
 
 if __name__ == "__main__":
         app = QtWidgets.QApplication(sys.argv)
-        global window
-        window = QtWidgets.QMainWindow()
         ui = RadioSelect()
-        ui.radioSelect(window)
+        ui.show()
         sys.exit(app.exec_())
 
 

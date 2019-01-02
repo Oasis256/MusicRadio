@@ -1,8 +1,21 @@
 # Contributed by SWAGLORD12
 from PyQt5 import QtCore, QtGui, QtWidgets
+import mainwindow
 import sys
+import RadioSelect
 
-class RFWindow(object):
+class RFWindow(QtWidgets.QMainWindow, mainwindow.Ui_MainWindow):
+
+    def __init__(self):
+        super(self.__class__, self).__init__()
+        self.setupUi(self)
+        self.Home.clicked.connect(self.homePushed)
+
+
+    def RadioSelect(self):
+        global w
+        w = RadioSelect.RadioSelect()
+        w.show()
 
     def setupUi(self, Form):
         Form.setObjectName("MainWindow")
@@ -58,6 +71,10 @@ class RFWindow(object):
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
+
+    def homePushed(self):
+        self.hide()
+        RFWindow.RadioSelect(self)
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
