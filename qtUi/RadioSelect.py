@@ -26,6 +26,10 @@ class RadioSelect(QtWidgets.QMainWindow, mainwindow.Ui_MainWindow):
     def setupUi(self, Form):
         Form.setObjectName("RadioSelect")
         Form.resize(480, 320)
+        self.setAutoFillBackground(True)
+        p = self.palette()
+        p.setColor(self.backgroundRole(), QtCore.Qt.black)
+        self.setPalette(p)
 
         #Top Buttons 
         self.FM = QtWidgets.QPushButton(Form)
@@ -58,7 +62,7 @@ class RadioSelect(QtWidgets.QMainWindow, mainwindow.Ui_MainWindow):
         self.noaa.setGeometry(QtCore.QRect(0, 170, 150, 150))
         self.noaa.setObjectName("HAM")
         iconNoaa = QtGui.QIcon()
-        iconNoaa.addPixmap(QtGui.QPixmap("resources/skywarn.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        iconNoaa.addPixmap(QtGui.QPixmap("resources/NOAA.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.noaa.setIcon(iconNoaa)
         self.noaa.setIconSize(QtCore.QSize(110, 145))
 

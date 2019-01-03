@@ -20,6 +20,11 @@ class RFWindow(QtWidgets.QMainWindow, mainwindow.Ui_MainWindow):
     def setupUi(self, Form):
         Form.setObjectName("MainWindow")
         Form.resize(480, 318)
+        self.setAutoFillBackground(True)
+        p = self.palette()
+        p.setColor(self.backgroundRole(), QtCore.Qt.black)
+        self.setPalette(p)
+
 
         self.centralwidget = QtWidgets.QWidget(Form)
         self.centralwidget.setObjectName("centralwidget")
