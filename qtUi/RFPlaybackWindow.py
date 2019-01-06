@@ -3,6 +3,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import mainwindow
 import sys
 import RadioSelect
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
+import matplotlib.pyplot as plt
 
 class RFWindow(QtWidgets.QMainWindow, mainwindow.Ui_MainWindow):
 
@@ -37,7 +40,7 @@ class RFWindow(QtWidgets.QMainWindow, mainwindow.Ui_MainWindow):
         self.Prev.setGeometry(QtCore.QRect(320, 140, 151, 51))
         self.Prev.setObjectName("Prev")
 
-        self.Freq = QtWidgets.QPushButton(self.centralwidget)
+        self.Freq = QtWidgets.QLCDNumber(self.centralwidget)
         self.Freq.setGeometry(QtCore.QRect(320, 30, 151, 61))
         self.Freq.setObjectName("Freq")
 
@@ -67,7 +70,8 @@ class RFWindow(QtWidgets.QMainWindow, mainwindow.Ui_MainWindow):
 
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(0, 0, 471, 31))
-        self.label_2.setObjectName("label_2")
+        self.label_2.setStyleSheet('color: white')
+        self.label_2.setObjectName("Radio Station Data")
 
         Form.setCentralWidget(self.centralwidget)
         #self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -76,6 +80,19 @@ class RFWindow(QtWidgets.QMainWindow, mainwindow.Ui_MainWindow):
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
+
+    def plot1(self):
+        plt.cla()
+        ax1 = self.figure.add_subplot(211)
+        x1 = [i for i in range(100)]
+        y1 = [i**0.5 for i in x1]
+        ax1.plot(x1,y1,'b.-')
+
+        ax2 = self.figure.add_subplot(212)
+        x2 = [i for i in range(100)]
+        y2 = [i for i in x2]
+        ax2.plot(x2,y2,'b.-')
+        self.canvas.draw_idle()
 
     def homePushed(self):
         self.hide()
@@ -86,12 +103,12 @@ class RFWindow(QtWidgets.QMainWindow, mainwindow.Ui_MainWindow):
         Form.setWindowTitle(_translate("MainWindow", "RFScreen"))
         self.Next.setText(_translate("MainWindow", "NEXT"))
         self.Prev.setText(_translate("MainWindow", "PREV"))
-        self.Freq.setText(_translate("MainWindow", "FREQ"))
+        #self.Freq.setText(_translate("MainWindow", "FREQ"))
         self.FullScreen.setText(_translate("MainWindow", "FULL SCREEN"))
         self.Record.setText(_translate("MainWindow", "RECORD"))
         self.Seekpos.setText(_translate("MainWindow", "SEEK +"))
         self.Seekmin.setText(_translate("MainWindow", "SEEK -"))
         self.Home.setText(_translate("MainWindow", "HOME"))
         self.label.setText(_translate("MainWindow", "TextLabel"))
-        self.label_2.setText(_translate("MainWindow", "                                                   TextLabel"))
+        self.label_2.setText(_translate("MainWindow", "                                             Radio Station Data"))
 
