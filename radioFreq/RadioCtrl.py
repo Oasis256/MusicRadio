@@ -10,7 +10,7 @@ radioCfg = RadioConfig()
 class RadioCtrl(object):
     currentBandName = None  # type: object
     currentDemod = None  # type: object
-    currentFrequency = None  # type: object
+    currentFrequency = 0
     radioCfg = None
     num_records = 0
 
@@ -73,11 +73,9 @@ class RadioCtrl(object):
         self.currentDemod = self.datastore["radio_config"]["stations"][self.currentIndex]["demod"]
         self.currentBandName = self.datastore["radio_config"]["stations"][self.currentIndex]["name"]
 
-
-    @property
+    @staticmethod
     def increaseFrequency(self, hertz):
         self.currentFrequency += hertz
-
 
     @property
     def decreaseFrequency(self, hertz):

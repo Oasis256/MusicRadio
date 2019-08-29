@@ -19,7 +19,7 @@ class RotaryEncoder(object):
 
         self.gpioEncoderPin1 = gpioEncoderPin1
         self.gpioEncoderPin2 = gpioEncoderPin2
-	self.gpioPressPin    = gpioPressPin
+        self.gpioPressPin = gpioPressPin
 
         # initialize interrupt handler
         GPIO.setwarnings(True)
@@ -28,7 +28,7 @@ class RotaryEncoder(object):
         # define the Encoder switch inputs
         GPIO.setup(self.gpioEncoderPin1, GPIO.IN)
         GPIO.setup(self.gpioEncoderPin2, GPIO.IN)
-        GPIO.setup(self.gpioPressPin,    GPIO.IN)
+        GPIO.setup(self.gpioPressPin,        GPIO.IN)
 
         # setup callback thread for the A and B encoder
         # use interrupts for all inputs
